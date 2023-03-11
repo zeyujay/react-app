@@ -58,11 +58,10 @@ USER node
 ###################
 
 FROM node:18-alpine As production
-
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1002 react
+RUN adduser --system --uid 1003 react
 
 USER react
 
@@ -72,6 +71,7 @@ ENV PORT 3001
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /app/node_modules ./node_modules
 COPY --chown=node:node --from=build /app/build ./build
+COPY --chown=node:node --from=build /app/public ./public
 
 # Start the server using the production build
 CMD [ "node", "build" ]
