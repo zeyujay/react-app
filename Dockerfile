@@ -54,5 +54,5 @@ EXPOSE 3001
 
 ENV PORT 3001
 COPY --chown=node:node --from=build /app/node_modules ./node_modules
-COPY --chown=node:node --from=build /app/dist ./dist
+COPY --chown=node:node --from=build /app/build ./build
 CMD ["node", "build.js"]
