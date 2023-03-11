@@ -1,23 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import { useEffect, useState } from 'react';
+function App () {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    fetch("http://43.206.19.9:3002/test/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setList(res);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {list &&
+          list.map((item) => {
+            console.log(item);
+            return <li key={item._id}>{JSON.stringify(item)}</li>;
+          })}
+      </ul>
     </div>
   );
 }
